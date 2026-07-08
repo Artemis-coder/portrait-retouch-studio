@@ -49,38 +49,28 @@
 
         // The target is the layer the user selected before clicking apply
         if (target && target.name !== group.name) {
-          doc.activeLayer = target;
+          try {
+            await ps.action.batchPlay([{ _obj: "select", _target: [{_ref: "layer", _id: target.id}] }], {});
+          } catch(e) {
+            doc.activeLayer = target;
+          }
         } else if (doc.layers.length > 0) {
           // Fallback to background
           doc.activeLayer = doc.layers[doc.layers.length - 1];
         }
 
-        const filterRadius = Math.max(1, Math.round(this.params.radius));
-        const filterThreshold = Math.max(0, Math.round(this.params.threshold));
-        const blurAmount = Math.max(0.5, this.params.strength / 20);
+        const filterRadius = Math.max(1, Math.round(this.params.radius)); // Pour le passe-haut (High Pass)
+        const blurAmount = Math.max(0.5, this.params.strength / 10); // Flou Gaussien (ex: 40/10 = 4px)
 
-        // 1. Dupliquer le calque ciblé pour le lissage
-        await Bridge.duplicateActiveLayer("Lissage Automatique");
+        // 1. Dupliquer le calque ciblé
+        await ps.action.batchPlay([
+          {
+            _obj: "duplicate",
+            _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
+            name: "Lissage Peau (Passe-haut)"
+          }
+        ], {});
         
-        // Appliquer les filtres
-        await Bridge.applyDustAndScratches(filterRadius, filterThreshold);
-        if (blurAmount > 1) {
-          await Bridge.applyGaussianBlur(blurAmount);
-        }
-
-        // Ajouter un masque noir par défaut (qui cache le lissage)
-        // S'il y a une sélection active (faite par l'utilisateur), le masque
-        // gardera cette zone blanche automatiquement grâce au comportement natif de Photoshop !
-        // Mais pour être sûr, nous allons d'abord vérifier s'il y a une sélection.
-        
-        // Créer le masque (revealSelection si sélection existe, sinon revealNone)
-        await ps.action.batchPlay([{
-          _obj: "make",
-          new: { _class: "channel" },
-          at: { _ref: "channel", _enum: "channel", _value: "mask" },
-          using: { _enum: "userMaskEnabled", _value: "revealSelection" }
-        }], {});
-
         // Déplacer ce calque lissé dans le groupe
         try {
           const smoothLayer = doc.activeLayer;
@@ -92,10 +82,36 @@
               adjustment: false
             }], {});
           }
-        } catch(e) {}
+        } catch(e) {
+          console.warn("Failed to move smooth layer to group", e);
+        }
 
-        // 2. Créer un calque vide pour la retouche manuelle (Correcteur) au-dessus
-        await Bridge.createEmptyLayer("Retouche Manuelle (Correcteur)");
+        // 2. Inversion (Mode Négatif)
+        await Bridge.invertLayer();
+        
+        // 3. Mode de Fusion : Lumière Vive (Vivid Light)
+        await Bridge.setBlendMode("vividLight");
+
+        // 4. Passe-haut (High Pass)
+        await Bridge.applyHighPass(filterRadius);
+
+        // 5. Flou Gaussien
+        if (blurAmount > 0) {
+          await Bridge.applyGaussianBlur(blurAmount);
+        }
+
+        // 6. Ajouter un masque noir par défaut (qui cache le lissage)
+        // S'il y a une sélection active (faite par l'utilisateur), le masque
+        // gardera cette zone blanche automatiquement grâce au comportement natif de Photoshop !
+        await ps.action.batchPlay([{
+          _obj: "make",
+          new: { _class: "channel" },
+          at: { _ref: "channel", _enum: "channel", _value: "mask" },
+          using: { _enum: "userMaskEnabled", _value: "revealSelection" }
+        }], {});
+
+        // 7. Créer un calque vide pour la retouche manuelle (Correcteur/Pièce) au-dessus
+        await Bridge.createEmptyLayer("Retouche Finale (Correcteur)");
         try {
           const manualLayer = doc.activeLayer;
           if (manualLayer && group.psObject) {

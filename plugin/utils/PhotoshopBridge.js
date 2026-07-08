@@ -585,6 +585,70 @@
       }
       return false;
     }
+
+    /**
+     * Appliquer le filtre Passe-Haut (High Pass)
+     */
+    static async applyHighPass(radius) {
+      const ps = this.getPhotoshopModule();
+      if (ps && ps.action && ps.action.batchPlay) {
+        try {
+          await ps.action.batchPlay([
+            {
+              _obj: "highPass",
+              radius: { _unit: "pixelsUnit", _value: radius }
+            }
+          ], {});
+          return true;
+        } catch (error) {
+          console.error("Failed to apply High Pass:", error);
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Changer le mode de fusion du calque actif
+     */
+    static async setBlendMode(mode) {
+      const ps = this.getPhotoshopModule();
+      if (ps && ps.action && ps.action.batchPlay) {
+        try {
+          await ps.action.batchPlay([
+            {
+              _obj: "set",
+              _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
+              to: {
+                _obj: "layer",
+                mode: { _enum: "blendMode", _value: mode }
+              }
+            }
+          ], {});
+          return true;
+        } catch (error) {
+          console.error("Failed to set blend mode:", error);
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Inverser le calque actif (Ctrl+I)
+     */
+    static async invertLayer() {
+      const ps = this.getPhotoshopModule();
+      if (ps && ps.action && ps.action.batchPlay) {
+        try {
+          await ps.action.batchPlay([
+            { _obj: "invert" }
+          ], {});
+          return true;
+        } catch (error) {
+          console.error("Failed to invert layer:", error);
+        }
+      }
+      return false;
+    }
   }
 
   global.PhotoshopBridge = PhotoshopBridge;
