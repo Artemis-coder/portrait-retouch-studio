@@ -1,7 +1,7 @@
 (function (global) {
   class PortraitVolumesModule extends global.BaseModule {
     constructor() {
-      super("Portrait Volumes", {
+      super("Volumes du Portrait", {
         strength: 45,
         radius: 60,
         intensity: 40
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Volume Strength", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Mask Softness", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Intensity", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Force du Volume", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Douceur du Masque", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Intensité", min: 0, max: 100 }
       ];
     }
 

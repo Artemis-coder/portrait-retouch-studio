@@ -45,6 +45,28 @@
 
         row.appendChild(labelWrapper);
         row.appendChild(input);
+      } else if (control.type === "color") {
+        const colorWrapper = document.createElement("div");
+        colorWrapper.style.cssText = "display:flex;align-items:center;gap:8px;";
+
+        input = document.createElement("input");
+        input.type = "color";
+        input.value = module.params[control.key] || "#ffffff";
+        input.style.cssText = "width:32px;height:28px;border:1px solid var(--border-color);border-radius:4px;background:transparent;cursor:pointer;padding:0;";
+
+        const hexLabel = document.createElement("span");
+        hexLabel.className = "control-value";
+        hexLabel.textContent = input.value.toUpperCase();
+
+        input.addEventListener("input", () => {
+          hexLabel.textContent = input.value.toUpperCase();
+          onUpdate({ [control.key]: input.value });
+        });
+
+        colorWrapper.appendChild(input);
+        colorWrapper.appendChild(hexLabel);
+        labelWrapper.appendChild(colorWrapper);
+        row.appendChild(labelWrapper);
       }
 
       return row;

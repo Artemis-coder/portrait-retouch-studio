@@ -2,7 +2,12 @@
   "id": "com.portraitstudio.retouch-plugin",
   "name": "Portrait Retouch Studio",
   "version": "1.1.0",
+  "icons": [
+    { "width": 23, "height": 23, "path": "icons/panel-icon-dark.png", "scale": [ 1, 2 ], "theme": [ "darkest", "dark", "medium" ] },
+    { "width": 23, "height": 23, "path": "icons/panel-icon-light.png", "scale": [ 1, 2 ], "theme": [ "lightest", "light" ] }
+  ],
   "manifestVersion": 5,
+  "main": "index.html",
   "host": [
     {
       "app": "PS",
@@ -29,7 +34,7 @@
   "requiredPermissions": {
     "allowCodeGeneration": true,
     "network": {
-      "domains": "none"
+      "domains": "all"
     },
     "launchProcess": {
       "schemes": [],

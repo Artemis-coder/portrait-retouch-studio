@@ -1,7 +1,7 @@
 (function (global) {
   class CleanBackdropModule extends global.BaseModule {
     constructor() {
-      super("Clean Backdrop", {
+      super("Nettoyage du Fond", {
         strength: 30,
         radius: 40,
         intensity: 50
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Edge Cleanup", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Blur Radius", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Contrast", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Nettoyage des Bords", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Rayon du Flou", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Contraste", min: 0, max: 100 }
       ];
     }
 

@@ -1,7 +1,7 @@
 (function (global) {
   class DodgeBurnModule extends global.BaseModule {
     constructor() {
-      super("Dodge & Burn", {
+      super("Dodge & Burn (Éclaircir/Assombrir)", {
         strength: 55,
         radius: 45,
         intensity: 50
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Dodge Strength", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Burn Strength", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Density", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Force Éclaircissement", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Force Assombrissement", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Densité", min: 0, max: 100 }
       ];
     }
 

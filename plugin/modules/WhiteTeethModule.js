@@ -1,7 +1,7 @@
 (function (global) {
   class WhiteTeethModule extends global.BaseModule {
     constructor() {
-      super("White Teeth", {
+      super("Blanchiment des Dents", {
         strength: 35,
         radius: 15,
         intensity: 30
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Whitening Amount", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Feather", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Saturation Control", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Niveau de Blanchiment", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Contour Progressif", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Contrôle Saturation", min: 0, max: 100 }
       ];
     }
 

@@ -1,7 +1,7 @@
 (function (global) {
   class FaceLiftingModule extends global.BaseModule {
     constructor() {
-      super("Face Make Lifting", {
+      super("Lifting du Visage", {
         strength: 20,
         radius: 80,
         intensity: 70,
@@ -11,11 +11,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Strength", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Radius", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Intensity", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Force du Lifting", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Rayon", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Intensité", min: 0, max: 100 }
       ];
     }
 

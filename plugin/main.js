@@ -69,10 +69,40 @@
       const applyBtn = document.getElementById("applyBtn");
       const resetBtn = document.getElementById("resetBtn");
       const previewBtn = document.getElementById("previewBtn");
+      const toggleExpandBtn = document.getElementById("toggleExpandBtn");
+      const toggleEnableBtn = document.getElementById("toggleEnableBtn");
+      const closePluginBtn = document.getElementById("closePluginBtn");
 
       applyBtn?.addEventListener("click", () => this.applyPipeline());
       resetBtn?.addEventListener("click", () => this.resetPipeline());
       previewBtn?.addEventListener("click", () => this.previewPipeline());
+      
+      let allExpanded = false;
+      toggleExpandBtn?.addEventListener("click", () => {
+        allExpanded = !allExpanded;
+        const cards = this.ui.container.querySelectorAll(".module-card");
+        cards.forEach(card => {
+          if (allExpanded) {
+            card.classList.remove("collapsed");
+          } else {
+            card.classList.add("collapsed");
+          }
+        });
+        toggleExpandBtn.textContent = allExpanded ? "Tout Replier" : "Tout Déplier";
+      });
+
+      let allEnabled = true;
+      toggleEnableBtn?.addEventListener("click", () => {
+        allEnabled = !allEnabled;
+        this.modules.forEach(module => module.updateParams({ enabled: allEnabled }));
+        this.saveSettings();
+        this.renderUI();
+        toggleEnableBtn.textContent = allEnabled ? "Tout Désactiver" : "Tout Activer";
+      });
+      
+      closePluginBtn?.addEventListener("click", () => {
+        this.ui.setStatus("Fermeture gérée par l'hôte UXP.");
+      });
     }
 
     async applyPipeline() {
@@ -87,6 +117,7 @@
         });
         this.saveSettings();
         this.ui.setStatus("Pipeline applied successfully.");
+        this.isPreviewing = false; // Reset preview state
       } catch (error) {
         console.error(error);
         this.ui.setStatus(`Error: ${error.message}`);
@@ -112,8 +143,39 @@
       }
     }
 
-    previewPipeline() {
-      this.ui.setStatus("Preview mode is ready for the selected modules.");
+    async previewPipeline() {
+      if (typeof this.isPreviewing === 'undefined') {
+        this.isPreviewing = false;
+      }
+      this.isPreviewing = !this.isPreviewing;
+      
+      try {
+        await global.PhotoshopBridge.executeAsModal(async () => {
+          const ps = global.PhotoshopBridge.getPhotoshopModule();
+          if (!ps) return;
+          const doc = ps.app.activeDocument;
+          if (!doc) return;
+          
+          const moduleNames = this.modules.map(m => m.name);
+          
+          doc.layers.forEach(layer => {
+            if (moduleNames.includes(layer.name)) {
+              layer.visible = !this.isPreviewing;
+            }
+          });
+        });
+        
+        if (this.isPreviewing) {
+          this.ui.setStatus("Aperçu : Avant (Effets masqués)", false);
+          document.getElementById("previewBtn").textContent = "Afficher les effets";
+        } else {
+          this.ui.setStatus("Aperçu : Après (Effets visibles)", false);
+          document.getElementById("previewBtn").textContent = "Aperçu (Avant)";
+        }
+      } catch (e) {
+        this.ui.setStatus("Erreur lors de l'aperçu", true);
+        console.error(e);
+      }
     }
   }
 

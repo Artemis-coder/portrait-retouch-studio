@@ -1,7 +1,7 @@
 (function (global) {
   class SkinMaskModule extends global.BaseModule {
     constructor() {
-      super("Skin Mask", {
+      super("Masque de Peau", {
         strength: 40,
         radius: 20,
         intensity: 50
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Feather", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Smoothness", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Range", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Contour Progressif", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Lissage", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Plage de Sélection", min: 0, max: 100 }
       ];
     }
 

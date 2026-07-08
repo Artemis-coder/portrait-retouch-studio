@@ -1,7 +1,7 @@
 (function (global) {
   class MatifierModule extends global.BaseModule {
     constructor() {
-      super("Matifier", {
+      super("Matifiant (Anti-Brillance)", {
         strength: 50,
         radius: 30,
         intensity: 40
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Matte Strength", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Blur Radius", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Intensity / Threshold", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Force du Matifiant", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Rayon du Flou", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Seuil d'Intensité", min: 0, max: 100 }
       ];
     }
 

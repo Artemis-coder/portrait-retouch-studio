@@ -1,7 +1,7 @@
 (function (global) {
   class SkinToneModule extends global.BaseModule {
     constructor() {
-      super("Skin Tone", {
+      super("Teint de la Peau", {
         strength: 30,
         radius: 0,
         intensity: 20
@@ -10,10 +10,10 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Hue Shift", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Temperature", min: 0, max: 100 },
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Décalage de Teinte", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Température", min: 0, max: 100 },
         { key: "intensity", type: "range", label: "Saturation", min: 0, max: 100 }
       ];
     }

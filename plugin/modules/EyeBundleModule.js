@@ -1,7 +1,7 @@
 (function (global) {
   class EyeBundleModule extends global.BaseModule {
     constructor() {
-      super("Eye Bundle", {
+      super("Retouche Yeux", {
         strength: 30,
         radius: 20,
         intensity: 50
@@ -10,11 +10,11 @@
 
     getControls() {
       return [
-        { key: "enabled", type: "checkbox", label: "Enabled" },
-        { key: "opacity", type: "range", label: "Opacity", min: 0, max: 100 },
-        { key: "strength", type: "range", label: "Eye Brightness", min: 0, max: 100 },
-        { key: "radius", type: "range", label: "Eye Contrast", min: 0, max: 100 },
-        { key: "intensity", type: "range", label: "Eye Sharpening", min: 0, max: 100 }
+        { key: "enabled", type: "checkbox", label: "Activé" },
+        { key: "opacity", type: "range", label: "Opacité", min: 0, max: 100 },
+        { key: "strength", type: "range", label: "Luminosité des Yeux", min: 0, max: 100 },
+        { key: "radius", type: "range", label: "Contraste des Yeux", min: 0, max: 100 },
+        { key: "intensity", type: "range", label: "Netteté des Yeux", min: 0, max: 100 }
       ];
     }
 

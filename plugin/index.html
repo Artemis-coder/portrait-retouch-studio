@@ -9,18 +9,37 @@
   <body>
     <div class="app-shell">
       <header class="app-header">
-        <h1>Portrait Retouch Studio</h1>
-        <p>Non-destructive portrait workflow for Photoshop UXP</p>
+        <div class="header-top">
+          <div class="logo">
+            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <h1>Portrait Retouch</h1>
+          </div>
+          <button id="closePluginBtn" class="icon-btn" title="Fermer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p>Retouche portrait non-destructive pour Photoshop</p>
       </header>
+
+      <div class="global-toolbar">
+        <button id="toggleExpandBtn" class="toolbar-btn">Tout Déplier</button>
+        <button id="toggleEnableBtn" class="toolbar-btn">Tout Activer</button>
+      </div>
 
       <section class="panel-section">
         <div id="moduleList" class="module-list"></div>
       </section>
 
       <footer class="actions">
-        <button id="previewBtn" class="secondary">Preview</button>
-        <button id="applyBtn" class="primary">Apply Pipeline</button>
-        <button id="resetBtn" class="secondary">Reset</button>
+        <button id="previewBtn" class="secondary">Aperçu</button>
+        <button id="applyBtn" class="primary">Appliquer</button>
+        <button id="resetBtn" class="secondary">Réinitialiser</button>
       </footer>
 
       <div id="status" class="status" aria-live="polite"></div>
