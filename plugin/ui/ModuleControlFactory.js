@@ -38,10 +38,22 @@
         input.max = control.max ?? 100;
         input.value = module.params[control.key];
 
+        const updateSliderBg = () => {
+          const min = Number(input.min) || 0;
+          const max = Number(input.max) || 100;
+          const val = Number(input.value);
+          const percent = ((val - min) / (max - min)) * 100;
+          input.style.setProperty('--val', `${percent}%`);
+        };
+
         input.addEventListener("input", () => {
           valIndicator.textContent = input.value;
+          updateSliderBg();
           onUpdate({ [control.key]: Number(input.value) });
         });
+        
+        // Initialiser la couleur
+        updateSliderBg();
 
         row.appendChild(labelWrapper);
         row.appendChild(input);
