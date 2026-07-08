@@ -62,19 +62,18 @@
         const filterRadius = Math.max(1, Math.round(this.params.radius)); // Pour le passe-haut (High Pass)
         const blurAmount = Math.max(0.5, this.params.strength / 10); // Flou Gaussien (ex: 40/10 = 4px)
 
-        // 1. Dupliquer le calque ciblé
+        // 1. Calque de Flou Gaussien (Couleurs / Basse fréquence)
+        doc.activeLayer = target;
         await ps.action.batchPlay([
           {
             _obj: "duplicate",
             _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
-            name: "Lissage Peau (Passe-haut)"
+            name: "Flou Gaussien (Couleurs)"
           }
         ], {});
         
-        // Déplacer ce calque lissé dans le groupe
         try {
-          const smoothLayer = doc.activeLayer;
-          if (smoothLayer && group.psObject) {
+          if (doc.activeLayer && group.psObject) {
             await ps.action.batchPlay([{
               _obj: "move",
               _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
@@ -82,27 +81,37 @@
               adjustment: false
             }], {});
           }
-        } catch(e) {
-          console.warn("Failed to move smooth layer to group", e);
-        }
+        } catch(e) {}
 
-        // 2. Inversion (Mode Négatif)
-        await Bridge.invertLayer();
-        
-        // 3. Mode de Fusion : Lumière Vive (Vivid Light)
-        await Bridge.setBlendMode("vividLight");
-
-        // 4. Passe-haut (High Pass)
-        await Bridge.applyHighPass(filterRadius);
-
-        // 5. Flou Gaussien
         if (blurAmount > 0) {
-          await Bridge.applyGaussianBlur(blurAmount);
+          await Bridge.applyGaussianBlur(blurAmount * 2); // Flou plus soutenu pour la couleur
         }
 
-        // 6. Ajouter un masque noir par défaut (qui cache le lissage)
-        // S'il y a une sélection active (faite par l'utilisateur), le masque
-        // gardera cette zone blanche automatiquement grâce au comportement natif de Photoshop !
+        // 2. Calque Passe-Haut (Textures / Haute fréquence)
+        doc.activeLayer = target; // Re-sélectionner l'original
+        await ps.action.batchPlay([
+          {
+            _obj: "duplicate",
+            _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
+            name: "Passe-Haut (Textures)"
+          }
+        ], {});
+        
+        try {
+          if (doc.activeLayer && group.psObject) {
+            await ps.action.batchPlay([{
+              _obj: "move",
+              _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
+              to: { _ref: "layer", _id: group.psObject.id },
+              adjustment: false
+            }], {});
+          }
+        } catch(e) {}
+
+        await Bridge.applyHighPass(filterRadius);
+        await Bridge.setBlendMode("linearLight"); // Mode de fusion standard pour passe-haut
+
+        // Masque de fusion
         await ps.action.batchPlay([{
           _obj: "make",
           new: { _class: "channel" },
@@ -110,17 +119,32 @@
           using: { _enum: "userMaskEnabled", _value: "revealSelection" }
         }], {});
 
-        // 7. Créer un calque vide pour la retouche manuelle (Correcteur/Pièce) au-dessus
-        await Bridge.createEmptyLayer("Retouche Finale (Correcteur)");
+        // 3. Calque d'éclat (Luminosité/Contraste)
+        await ps.action.batchPlay([{
+           _obj: "make",
+           _target: [{ _ref: "layer" }],
+           using: {
+              _obj: "adjustmentLayer",
+              type: {
+                 _obj: "brightnessEvent",
+                 brightness: 12,
+                 center: 0
+              }
+           }
+        }], {});
+        
         try {
-          const manualLayer = doc.activeLayer;
-          if (manualLayer && group.psObject) {
-            await ps.action.batchPlay([{
-              _obj: "move",
-              _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
-              to: { _ref: "layer", _id: group.psObject.id },
-              adjustment: false
-            }], {});
+          const lumLayer = doc.activeLayer;
+          if (lumLayer) {
+             lumLayer.name = "Éclat Peau (Luminosité)";
+             if (group.psObject) {
+               await ps.action.batchPlay([{
+                 _obj: "move",
+                 _target: [{ _ref: "layer", _enum: "ordinal", _value: "targetEnum" }],
+                 to: { _ref: "layer", _id: group.psObject.id },
+                 adjustment: false
+               }], {});
+             }
           }
         } catch(e) {}
 
