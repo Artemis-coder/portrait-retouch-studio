@@ -1,0 +1,42 @@
+{
+  "id": "com.portraitstudio.retouch-plugin",
+  "name": "Portrait Retouch Studio",
+  "version": "1.1.0",
+  "manifestVersion": 5,
+  "host": [
+    {
+      "app": "PS",
+      "minVersion": "24.0"
+    }
+  ],
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "portrait-retouch-panel",
+      "label": {
+        "default": "Portrait Retouch Studio"
+      },
+      "minimumSize": { "width": 340, "height": 480 },
+      "maximumSize": { "width": 500, "height": 900 },
+      "preferredDockedSize": { "width": 380, "height": 760 },
+      "icons": [
+        { "width": 23, "height": 23, "path": "icons/panel-icon-dark.png", "scale": [ 1, 2 ], "theme": [ "darkest", "dark", "medium" ] },
+        { "width": 23, "height": 23, "path": "icons/panel-icon-light.png", "scale": [ 1, 2 ], "theme": [ "lightest", "light" ] }
+      ],
+      "main": "index.html"
+    }
+  ],
+  "requiredPermissions": {
+    "allowCodeGeneration": true,
+    "network": {
+      "domains": "none"
+    },
+    "launchProcess": {
+      "schemes": [],
+      "extensions": []
+    },
+    "clipboard": "readAndWrite",
+    "isSandboxed": false,
+    "allowFileAccess": true
+  }
+}

@@ -1,0 +1,24 @@
+# Fichiers système macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environnements
+.env
+.env.local
+.env.*.local
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Icônes (à ajouter manuellement)
+plugin/icons/

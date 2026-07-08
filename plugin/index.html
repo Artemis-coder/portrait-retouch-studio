@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portrait Retouch Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <h1>Portrait Retouch Studio</h1>
+        <p>Non-destructive portrait workflow for Photoshop UXP</p>
+      </header>
+
+      <section class="panel-section">
+        <div id="moduleList" class="module-list"></div>
+      </section>
+
+      <footer class="actions">
+        <button id="previewBtn" class="secondary">Preview</button>
+        <button id="applyBtn" class="primary">Apply Pipeline</button>
+        <button id="resetBtn" class="secondary">Reset</button>
+      </footer>
+
+      <div id="status" class="status" aria-live="polite"></div>
+    </div>
+
+    <script src="utils/SettingsStore.js"></script>
+    <script src="utils/PhotoshopBridge.js"></script>
+    <script src="utils/LayerUtils.js"></script>
+    <script src="utils/FaceDetection.js"></script>
+    <script src="modules/BaseModule.js"></script>
+    <script src="modules/HealModule.js"></script>
+    <script src="modules/DodgeBurnModule.js"></script>
+    <script src="modules/PortraitVolumesModule.js"></script>
+    <script src="modules/MatifierModule.js"></script>
+    <script src="modules/SkinToneModule.js"></script>
+    <script src="modules/SkinMaskModule.js"></script>
+    <script src="modules/EyeBundleModule.js"></script>
+    <script src="modules/WhiteTeethModule.js"></script>
+    <script src="modules/FabricModule.js"></script>
+    <script src="modules/CleanBackdropModule.js"></script>
+    <script src="modules/StrayHairsModule.js"></script>
+    <script src="modules/GlassesEyeRemovalModule.js"></script>
+    <script src="modules/FaceLiftingModule.js"></script>
+    <script src="ui/ModuleControlFactory.js"></script>
+    <script src="ui/PanelController.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
